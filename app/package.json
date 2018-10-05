@@ -1,0 +1,27 @@
+{
+  "name": "mythirdapp",
+  "version": "1.0.0",
+  "description": "My Third App",
+  "private": true,
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "MyThirdApp"
+  },
+  "keywords": ["My Third App", "Third App", "Third"],
+  "author": "Kirill Chekhter",
+  "license": "ISC",
+  "engines": {
+    "node": "6.x.x"
+  },
+  "dependencies": {
+    "@sap/xssec": "^2.1.15",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "passport": "^0.4.0"
+  }
+}

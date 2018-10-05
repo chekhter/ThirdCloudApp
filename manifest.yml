@@ -1,0 +1,28 @@
+---
+applications:
+- name: MyThirdApp
+  routes:
+  - route: kcthirdapp.cfapps.sap.hana.ondemand.com
+  path: ./app # the path to application files
+  memory: 64m
+  disk_quota: 128m
+  services:
+  - mythird-uaa
+
+- name: MyThirdWeb
+  routes:
+  - route: kcthirdweb.cfapps.sap.hana.ondemand.com
+  path: ./web
+  memory: 128M
+  disk_quota: 256m
+  env:
+    destinations: >
+      [
+        {
+          "name": "my_third_app",
+          "url": "https://kcthirdapp.cfapps.sap.hana.ondemand.com",
+          "forwardAuthToken": true
+        }
+      ]
+  services:
+  - mythird-uaa

@@ -1,0 +1,40 @@
+<html>
+<head>
+	<title>My Third App</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script>
+		function fetchCsrfToken() {
+			return new Promise(function(resolve, reject) {
+				jQuery.ajax({url: '/pathtothirdapp/users', type: 'HEAD', headers: {'x-csrf-token': 'fetch'}})
+				.done(function(message, text, jqXHR) {resolve(jqXHR.getResponseHeader('x-csrf-token'));})
+				.fail(function(jqXHR, textStatus, errorThrown) {reject({text: "Error fetching CSRF token", status: jqXHR.status, code: errorThrown});});
+			});
+		}
+	
+		function addNewUser(token) {
+			var name = jQuery('#name').val() || '--';
+
+			return new Promise(function(resolve, reject) {
+				jQuery.ajax({url: '/pathtothirdapp/users', type: 'POST', headers: {'x-csrf-token': token}, contentType: 'application/json', data: JSON.stringify({name: name})})
+				.done(resolve)
+				.fail(function(jqXHR, textStatus, errorThrown){debugger; reject({text: "Error adding new user", status: jqXHR.status, code: errorThrown});});
+			});
+		}
+
+		function addUser() {
+			fetchCsrfToken()
+			.then(addNewUser)
+			.then(function() {alert("success"); window.location = "pathtothirdapp/users";})
+			.catch(function(oError) {alert(oError.text + ': ' + oError.status + ' ' + oError.code);});
+		}
+	 </script>
+</head>
+<body>
+	<h1>My Third App</h1>
+	<a href="./pathtothirdapp/users">Show users</a>
+	<br/>
+	<br/>
+	<input type="text" id="name" placeholder="Type user name"></input>
+	<input type="button" value="Add User" onClick="javascript: addUser()"></input>
+</body>
+</html>
